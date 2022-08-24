@@ -34,11 +34,6 @@ if [ ! -f profile/kind.yaml ];then
 Kubeconfig: kinde2e.yaml
 ControllerCluster:
   Context: kind-controller
-  HubChartOptions:
-      Repo: "https://kubeslice.github.io/kubeslice/"
-      SetStrValues:
-             "kubeslice.controller.image": "kubeslice-controller"
-             "kubeslice.controller.tag": "e2e-latest"
 WorkerClusters:
 - Context: kind-controller
   NodeIP: ${IP1}
@@ -46,6 +41,11 @@ WorkerClusters:
   NodeIP: ${IP2}
 WorkerChartOptions:
   Repo: https://kubeslice.github.io/kubeslice/
+HubChartOptions:
+      Repo: "https://kubeslice.github.io/kubeslice/"
+      SetStrValues:
+             "kubeslice.controller.image": "kubeslice-controller"
+             "kubeslice.controller.tag": "e2e-latest"
 TestSuitesEnabled:
   HubSuite: true
   WorkerSuite: true
