@@ -49,6 +49,8 @@ WorkerChartOptions:
 TestSuitesEnabled:
   HubSuite: true
   WorkerSuite: true
+  EmptySuite: true
+  IstioSuite: true
 EOF
 
 fi
