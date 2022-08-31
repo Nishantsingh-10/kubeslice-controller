@@ -62,7 +62,7 @@ jobs:
       
     - name: get the output
       run: |
-        echo  ${{ steps.Allure_report_with_history }}
+        echo  ${{ steps.Allure_report_with_history.outputs.allure-history }}
         
     
     - name: Deploy report to Github Pages
