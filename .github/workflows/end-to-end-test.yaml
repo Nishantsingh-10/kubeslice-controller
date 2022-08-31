@@ -1,7 +1,7 @@
 name: end-to-end-test
 on:
-  pull_request:
-    branches: [ master ]
+  push:
+    branches: [ TH-set ]
   workflow_dispatch:
 jobs:
   end-to-end:
@@ -59,7 +59,12 @@ jobs:
         github_run_num: 'Kind-${{ github.event.repository.name }}-${{ steps.date.outputs.date }}-${{ github.base_ref }}-${{ github.run_number }}'
         report_url: 'https://kubeslice.github.io/e2e-allure-reports/'
         test_env: Kind
-          
+      
+    - name: get the output
+      run: |
+        echo  ${{ steps.Allure_report_with_history.outputs }}
+        
+    
     - name: Deploy report to Github Pages
       uses: peaceiris/actions-gh-pages@v2
       env:
