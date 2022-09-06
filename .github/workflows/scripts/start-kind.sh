@@ -12,7 +12,7 @@ if [ ! $(kind get clusters | grep controller) ];then
         counter=0
         echo kubectl get pod $pod -n $ns
         kubectl get pod $pod -n $ns
-        while [[ ! ($(kubectl get po $pod -n $ns | grep $pod | awk '{print $3}') =~ ^Running$|^Completed$) ]]; do
+        while [[ ! $(kubectl get po $pod -n $ns | grep $pod | awk '{print $3}') =~ ^Running$|^Completed$ ]]; do
           sleep 1
           let counter=counter+1
 
@@ -71,7 +71,7 @@ if [ ! $(kind get clusters | grep worker) ];then
         counter=0
         echo kubectl get pod $pod -n $ns
         kubectl get pod $pod -n $ns
-        while [[ ! ($(kubectl get po $pod -n $ns | grep $pod | awk '{print $3}') =~ ^Running$|^Completed$) ]]; do
+        while [[ ! $(kubectl get po $pod -n $ns | grep $pod | awk '{print $3}') =~ ^Running$|^Completed$ ]]; do
           sleep 1
           let counter=counter+1
 
