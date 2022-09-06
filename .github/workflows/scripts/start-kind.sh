@@ -12,7 +12,7 @@ if [ ! $(kind get clusters | grep controller) ];then
         counter=0
         echo kubectl get pod $pod -n $ns
         kubectl get pod $pod -n $ns
-        while [[ ! $(kubectl get po $pod -n $ns | grep $pod | awk '{print $3}') =~ ^Running$|^Completed$ ]]; do
+        while [[ ! ($(kubectl get po $pod -n $ns | grep $pod | awk '{print $3}') =~ ^Running$|^Completed$) ]]; do
           sleep 1
           let counter=counter+1
 
@@ -71,7 +71,7 @@ if [ ! $(kind get clusters | grep worker) ];then
         counter=0
         echo kubectl get pod $pod -n $ns
         kubectl get pod $pod -n $ns
-        while [[ ! $(kubectl get po $pod -n $ns | grep $pod | awk '{print $3}') =~ ^Running$|^Completed$ ]]; do
+        while [[ ! ($(kubectl get po $pod -n $ns | grep $pod | awk '{print $3}') =~ ^Running$|^Completed$) ]]; do
           sleep 1
           let counter=counter+1
 
@@ -119,10 +119,6 @@ if [ ! $(kind get clusters | grep worker) ];then
 fi
 
 KUBECONFIG=/home/runner/.kube/kind1.yaml:/home/runner/.kube/kind2.yaml kubectl config view --raw  > /home/runner/.kube/kinde2e.yaml
-
- 
-
-  
 
 if [ ! -f profile/kind.yaml ];then
   # Provide correct IP in kind profile, since worker operator cannot detect internal IP as nodeIp
