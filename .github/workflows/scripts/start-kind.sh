@@ -120,6 +120,10 @@ fi
 
 KUBECONFIG=/home/runner/.kube/kind1.yaml:/home/runner/.kube/kind2.yaml kubectl config view --raw  > /home/runner/.kube/kinde2e.yaml
 
+ 
+
+  
+
 if [ ! -f profile/kind.yaml ];then
   # Provide correct IP in kind profile, since worker operator cannot detect internal IP as nodeIp
   IP1=$(docker inspect controller-control-plane | jq -r '.[0].NetworkSettings.Networks.kind.IPAddress')
