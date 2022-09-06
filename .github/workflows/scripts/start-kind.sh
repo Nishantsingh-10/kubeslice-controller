@@ -130,7 +130,7 @@ Kubeconfig: kinde2e.yaml
 ControllerCluster:
   Context: kind-controller
   HubChartOptions:
-      Repo: "https://kubeslice.github.io/kubeslice/"
+      Repo: "https://kubeslice.github.io/charts"
       SetStrValues:
              "kubeslice.controller.image": "kubeslice-controller"
              "kubeslice.controller.tag": "e2e-latest"
@@ -140,7 +140,7 @@ WorkerClusters:
 - Context: kind-worker
   NodeIP: ${IP2}
 WorkerChartOptions:
-  Repo: https://kubeslice.github.io/kubeslice/
+  Repo: "https://kubeslice.github.io/charts"
 TestSuitesEnabled:
   HubSuite: true
   WorkerSuite: true
