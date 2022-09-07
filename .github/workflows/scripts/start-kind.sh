@@ -29,7 +29,7 @@ if [ ! $(kind get clusters | grep controller) ];then
   }
 
   #install kubectx
-  snap install kubectx --classic
+  sudo snap install kubectx --classic
 
   # Switch to Controller cluster...
   kubectx kind-controller
@@ -91,7 +91,7 @@ if [ ! $(kind get clusters | grep worker) ];then
   }
 
   #install kubectx
-  snap install kubectx --classic
+  sudo snap install kubectx --classic
 
   # Switch to Worker cluster...
   kubectx kind-worker
