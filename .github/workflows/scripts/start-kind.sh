@@ -28,6 +28,9 @@ if [ ! $(kind get clusters | grep controller) ];then
     done
   }
 
+  #install kubectx
+  snap install kubectx --classic
+
   # Switch to Controller cluster...
   kubectx kind-controller
 
@@ -87,6 +90,9 @@ if [ ! $(kind get clusters | grep worker) ];then
     done
   }
 
+  #install kubectx
+  snap install kubectx --classic
+
   # Switch to Worker cluster...
   kubectx kind-worker
 
@@ -130,7 +136,7 @@ Kubeconfig: kinde2e.yaml
 ControllerCluster:
   Context: kind-controller
   HubChartOptions:
-      Repo: "https://kubeslice.github.io/charts"
+      Repo: "https://kubeslice.github.io/kubeslice"
       SetStrValues:
              "kubeslice.controller.image": "kubeslice-controller"
              "kubeslice.controller.tag": "e2e-latest"
@@ -140,7 +146,7 @@ WorkerClusters:
 - Context: kind-worker
   NodeIP: ${IP2}
 WorkerChartOptions:
-  Repo: "https://kubeslice.github.io/charts"
+  Repo: "https://kubeslice.github.io/kubeslice"
 TestSuitesEnabled:
   HubSuite: true
   WorkerSuite: true
