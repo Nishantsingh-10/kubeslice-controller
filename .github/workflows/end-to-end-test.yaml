@@ -6,8 +6,6 @@ on:
 jobs:
   end-to-end:
     runs-on: ubuntu-20.04
-    permissions:
-      contents: write
     steps:
     - name: checkout the repo
       uses: actions/checkout@v3
