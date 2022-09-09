@@ -66,3 +66,12 @@ jobs:
         EXTERNAL_REPOSITORY: kubeslice/e2e-allure-reports
         PUBLISH_DIR: allure-history
         keep_files: true
+    
+    - name: access report here directly
+      run: |
+         sleep 300
+         echo 'https://kubeslice.github.io/e2e-allure-reports/Kind-${{ github.event.repository.name }}-${{ steps.date.outputs.date }}-${{ github.base_ref }}-${{ github.run_number }}/index.html'
+   
+   
+   
+   
