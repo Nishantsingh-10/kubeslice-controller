@@ -4,9 +4,7 @@
 if [ ! $(kind get clusters | grep controller) ];then
   kind create cluster --name controller --config .github/workflows/scripts/cluster.yaml --image kindest/node:v1.22.7
 
-  # Install Calico calico on controller-cluster
-  echo "Installing calico on controller-cluster"
-  function wait_for_pods {
+   function wait_for_pods {
     for ns in "$namespace"; do
       for pod in $(kubectl get pods -n $ns | grep -v NAME | awk '{ print $1 }'); do
         counter=0
@@ -28,23 +26,20 @@ if [ ! $(kind get clusters | grep controller) ];then
     done
   }
 
-  #install kubectx
-  sudo snap install kubectx --classic
+  sudo snap install kubectx --classic 
 
-  # Switch to Controller cluster...
+  # Install Calico in Controller...
+  echo Switch to controller context and Install Calico...
   kubectx kind-controller
+  kubectx
 
   echo Install the Tigera Calico operator...
   kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/tigera-operator.yaml
-
-  echo Download the custom resources necessary to configure Calico
-  curl https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/custom-resources.yaml -O
   sleep 60
 
   echo Install the custom resource definitions manifest...
-  #kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/custom-resources.yaml
-  kubectl create -f custom-resources.yaml
-  sleep 300
+  kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/custom-resources.yaml
+  sleep 120
 
   echo "Check for Calico namespaces, pods"
   kubectl get ns
@@ -55,6 +50,7 @@ if [ ! $(kind get clusters | grep controller) ];then
   wait_for_pods
 
   kubectl get pods -n calico-system
+  
   
   ip=$(docker inspect controller-control-plane | jq -r '.[0].NetworkSettings.Networks.kind.IPAddress') 
   echo $ip
@@ -68,7 +64,7 @@ if [ ! $(kind get clusters | grep worker) ];then
 
   # Install Calico calico on worker-cluster
   echo "Installing calico on worker-cluster"
-  function wait_for_pods {
+    function wait_for_pods {
     for ns in "$namespace"; do
       for pod in $(kubectl get pods -n $ns | grep -v NAME | awk '{ print $1 }'); do
         counter=0
@@ -90,22 +86,20 @@ if [ ! $(kind get clusters | grep worker) ];then
     done
   }
 
-  #install kubectx
-  sudo snap install kubectx --classic
 
-  # Switch to Worker cluster...
+  sudo snap install kubectx --classic 
+  
+  # Install Calico in Controller...
+  echo Switch to controller context and Install Calico...
   kubectx kind-worker
+  kubectx
 
   echo Install the Tigera Calico operator...
   kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/tigera-operator.yaml
-
-  echo Download the custom resources necessary to configure Calico
-  curl https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/custom-resources.yaml -O
   sleep 60
 
   echo Install the custom resource definitions manifest...
-  #kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/custom-resources.yaml
-  kubectl create -f custom-resources.yaml
+  kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/custom-resources.yaml
   sleep 120
 
   echo "Check for Calico namespaces, pods"
@@ -117,6 +111,7 @@ if [ ! $(kind get clusters | grep worker) ];then
   wait_for_pods
 
   kubectl get pods -n calico-system
+ 
   
   ip=$(docker inspect worker-control-plane | jq -r '.[0].NetworkSettings.Networks.kind.IPAddress')
   echo $ip
