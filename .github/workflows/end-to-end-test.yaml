@@ -1,13 +1,11 @@
 name: end-to-end-test
 on:
-  pull_request:
-    branches: [ master ]
+  push:
+    branches: [ TH-set ]
   workflow_dispatch:
 jobs:
   end-to-end:
-    runs-on: ubuntu-20.04
-    permissions:
-      contents: write
+    runs-on: self-hosted
     steps:
     - name: checkout the repo
       uses: actions/checkout@v3
@@ -68,3 +66,11 @@ jobs:
         EXTERNAL_REPOSITORY: kubeslice/e2e-allure-reports
         PUBLISH_DIR: allure-history
         keep_files: true
+    
+    
+    - name: Run Quality Gate Check
+      uses: PavanMudigonda/allure-html-reporter-github-pages/quality-gate@v1.1
+      with:
+         ENABLE_QUALITY_GATE: true
+         MINIMUM_PASS_PERCENTAGE: 75
+         ALLURE_BEHAVIORS_CSV: '/root/actions-runner/_work/kubeslice-controller/kubeslice-controller/Kind-${{ github.event.repository.name }}-${{ steps.date.outputs.date }}-${{ github.base_ref }}-${{ github.run_number }}/data/behaviors.csv'
