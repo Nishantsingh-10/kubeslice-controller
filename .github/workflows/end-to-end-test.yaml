@@ -1,4 +1,4 @@
-name: end-to-end-test
+name: end-to-end-test 
 on:
   push:
     branches: [ TH-set ]
